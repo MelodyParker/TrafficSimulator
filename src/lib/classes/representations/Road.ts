@@ -14,7 +14,6 @@ export default class Road {
       currentValue.road ++;
       return currentValue;
     })
-
   }
 
   addVehicle(vehicle: Vehicle): void {
@@ -34,6 +33,12 @@ export default class Road {
 
   posFromDistance(distanceOnRoad: number): number[] {
     return [50, distanceOnRoad];
+  }
+
+  update(dt: number): void {
+    for (let vehicle of this.vehiclesOnRoad) {
+      vehicle.update(dt);
+    }
   }
 }
 

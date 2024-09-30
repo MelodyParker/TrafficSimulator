@@ -17,12 +17,12 @@ export default class Vehicle {
   driver: Driver = new Driver(this);
 
   constructor(world: World, startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number) {
-    highestIds.update((currentValue) => {
+    highestIds.update((currentValue) => { // a dumb way of reading the current value of highestIds
       this.id = currentValue.vehicle;
       currentValue.vehicle ++;
       return currentValue;
     })
-    vehicleSpecs.update((currentValue) => {
+    vehicleSpecs.update((currentValue) => { // a dumb way of reading the current value of vehicleSpecs
       this.maxBraking = currentValue.maxBraking;
       this.maxAcceleration = currentValue.maxAcceleration;
       return currentValue;
@@ -49,5 +49,9 @@ export default class Vehicle {
 
   getPosition(): number[] {
     return this.currentRoad.posFromDistance(this.positionOnRoad);
+  }
+
+  update(dt: number): void {
+    this.positionOnRoad += this.velocityOnRoad * dt;
   }
 }

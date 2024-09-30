@@ -11,4 +11,8 @@ export default class Driver {
     this.vehicle = vehicle;
     
   }
+
+  update(dt: number): void {
+    // update method here
+  }
 }

@@ -20,7 +20,13 @@ export default class World {
   }
 
   update(dt: number): void {
+    for (let road of this.activeRoads) {
+      road.update(dt);
+    }
 
+    for (let intersection of this.activeIntersections) {
+      intersection.update(dt);
+    }
   }
 
   addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number): Vehicle {
