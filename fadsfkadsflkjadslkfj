@@ -1,0 +1,108 @@
+[1mdiff --git a/src/lib/classes/representations/Driver.ts b/src/lib/classes/representations/Driver.ts[m
+[1mindex c1af7ca..51704f1 100644[m
+[1m--- a/src/lib/classes/representations/Driver.ts[m
+[1m+++ b/src/lib/classes/representations/Driver.ts[m
+[36m@@ -11,4 +11,8 @@[m [mexport default class Driver {[m
+     this.vehicle = vehicle;[m
+     [m
+   }[m
+[32m+[m
+[32m+[m[32m  update(dt: number): void {[m
+[32m+[m[32m    // update method here[m
+[32m+[m[32m  }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/lib/classes/representations/Intersection.ts b/src/lib/classes/representations/Intersection.ts[m
+[1mindex 634b5e0..92378bc 100644[m
+[1m--- a/src/lib/classes/representations/Intersection.ts[m
+[1m+++ b/src/lib/classes/representations/Intersection.ts[m
+[36m@@ -3,7 +3,7 @@[m [mexport default class Intersection {[m
+   id: number = 0;[m
+ [m
+   constructor() {[m
+[31m-    highestIds.update((currentValue) => {[m
+[32m+[m[32m    highestIds.update((currentValue) => { // a dumb way of reading the current value of highestIds[m
+       this.id = currentValue.intersection;[m
+       currentValue.intersection ++;[m
+       return currentValue;[m
+[36m@@ -14,4 +14,8 @@[m [mexport default class Intersection {[m
+   getId(): number {[m
+     return this.id;[m
+   }[m
+[32m+[m
+[32m+[m[32m  update(dt: number): void {[m
+[32m+[m[32m    // eventually need to put something here[m
+[32m+[m[32m  }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/lib/classes/representations/Road.ts b/src/lib/classes/representations/Road.ts[m
+[1mindex a1bb221..b929787 100644[m
+[1m--- a/src/lib/classes/representations/Road.ts[m
+[1m+++ b/src/lib/classes/representations/Road.ts[m
+[36m@@ -14,7 +14,6 @@[m [mexport default class Road {[m
+       currentValue.road ++;[m
+       return currentValue;[m
+     })[m
+[31m-[m
+   }[m
+ [m
+   addVehicle(vehicle: Vehicle): void {[m
+[36m@@ -35,5 +34,11 @@[m [mexport default class Road {[m
+   posFromDistance(distanceOnRoad: number): number[] {[m
+     return [50, distanceOnRoad];[m
+   }[m
+[32m+[m
+[32m+[m[32m  update(dt: number): void {[m
+[32m+[m[32m    for (let vehicle of this.vehiclesOnRoad) {[m
+[32m+[m[32m      vehicle.update(dt);[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+ }[m
+ [m
+[1mdiff --git a/src/lib/classes/representations/Vehicle.ts b/src/lib/classes/representations/Vehicle.ts[m
+[1mindex ec1b701..3b82e76 100644[m
+[1m--- a/src/lib/classes/representations/Vehicle.ts[m
+[1m+++ b/src/lib/classes/representations/Vehicle.ts[m
+[36m@@ -17,12 +17,12 @@[m [mexport default class Vehicle {[m
+   driver: Driver = new Driver(this);[m
+ [m
+   constructor(world: World, startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number) {[m
+[31m-    highestIds.update((currentValue) => {[m
+[32m+[m[32m    highestIds.update((currentValue) => { // a dumb way of reading the current value of highestIds[m
+       this.id = currentValue.vehicle;[m
+       currentValue.vehicle ++;[m
+       return currentValue;[m
+     })[m
+[31m-    vehicleSpecs.update((currentValue) => {[m
+[32m+[m[32m    vehicleSpecs.update((currentValue) => { // a dumb way of reading the current value of vehicleSpecs[m
+       this.maxBraking = currentValue.maxBraking;[m
+       this.maxAcceleration = currentValue.maxAcceleration;[m
+       return currentValue;[m
+[36m@@ -50,4 +50,8 @@[m [mexport default class Vehicle {[m
+   getPosition(): number[] {[m
+     return this.currentRoad.posFromDistance(this.positionOnRoad);[m
+   }[m
+[32m+[m
+[32m+[m[32m  update(dt: number): void {[m
+[32m+[m[32m    this.positionOnRoad += this.velocityOnRoad * dt;[m
+[32m+[m[32m  }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/lib/classes/representations/World.ts b/src/lib/classes/representations/World.ts[m
+[1mindex e539992..fe6fa8d 100644[m
+[1m--- a/src/lib/classes/representations/World.ts[m
+[1m+++ b/src/lib/classes/representations/World.ts[m
+[36m@@ -20,7 +20,13 @@[m [mexport default class World {[m
+   }[m
+ [m
+   update(dt: number): void {[m
+[32m+[m[32m    for (let road of this.activeRoads) {[m
+[32m+[m[32m      road.update(dt);[m
+[32m+[m[32m    }[m
+ [m
+[32m+[m[32m    for (let intersection of this.activeIntersections) {[m
+[32m+[m[32m      intersection.update(dt);[m
+[32m+[m[32m    }[m
+   }[m
+ [m
+   addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number): Vehicle {[m

@@ -6,14 +6,22 @@ export default class Road {
   id: number = 0;
   world: World;
   vehiclesOnRoad: Vehicle[] = [];
+  isHorizontal: boolean
+  length: number;
+  roadStartPos: number[];
   
-  constructor(world: World) {
+  constructor(world: World, isHorizontal: boolean, length: number, roadStartPos: number[]) {
     this.world = world;
+    this.isHorizontal = isHorizontal;
+    this.length = length;
+    this.roadStartPos = roadStartPos;
     highestIds.update((currentValue) => {
       this.id = currentValue.road;
       currentValue.road ++;
       return currentValue;
     })
+
+    
   }
 
   addVehicle(vehicle: Vehicle): void {
