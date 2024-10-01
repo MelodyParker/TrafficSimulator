@@ -5,8 +5,10 @@
 	import Road from "$lib/classes/representations/Road";
   let bool:boolean = true;
   let world: World = new World();
-  let mainRoad: Road = world.addRoad();
-  let vehicle1 = world.addVehicle(mainRoad.getId(), true, 1, 0);
+  let mainRoad: Road = world.addRoad(true, 20, [5, 5]);
+  let vehicle1: Vehicle = world.addVehicle(mainRoad, true, 1, 0);
+  let scale: number = 50;
+  let topLeft: number[] = [0, 0];
 </script>
 
-<Renderer {world} />
+<Renderer {world} {topLeft} {scale}/>

@@ -19,6 +19,18 @@ export default class World {
 
   }
 
+  getVehicles(): Vehicle[] {
+    return this.activeVehicles;
+  }
+
+  getRoads(): Road[] {
+    return this.activeRoads;
+  }
+
+  getIntersections(): Intersection[] {
+    return this.activeIntersections;
+  }
+
   update(dt: number): void {
     for (let road of this.activeRoads) {
       road.update(dt);
@@ -35,8 +47,8 @@ export default class World {
     return vehicleToAdd;
   }
 
-  addRoad(): Road {
-    let roadToAdd: Road = new Road(this);
+  addRoad(isHorizontal: boolean, length: number, roadStartPos: number[], lanesForward=undefined, lanesBackward=undefined): Road {
+    let roadToAdd: Road = new Road(this, isHorizontal, length, roadStartPos, lanesForward, lanesBackward);
     this.activeRoads.push(roadToAdd);
     return roadToAdd;
   }

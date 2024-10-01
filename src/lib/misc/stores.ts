@@ -11,3 +11,7 @@ export const vehicleSpecs = writable({
   maxAcceleration: 1,
   maxBraking: 10
 })
+
+export const roadParams = writable({
+  laneWidth: 1
+})
