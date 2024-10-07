@@ -1,14 +1,36 @@
 <script lang="ts">
   import Renderer from "$lib/components/Renderer.svelte";
   import World from "$lib/classes/representations/World";
-	import Vehicle from "$lib/classes/representations/Vehicle";
-	import Road from "$lib/classes/representations/Road";
-  let bool:boolean = true;
-  let world: World = new World();
-  let mainRoad: Road = world.addRoad(true, 20, [5, 5]);
-  let vehicle1: Vehicle = world.addVehicle(mainRoad, true, 1, 0);
-  let scale: number = 50;
-  let topLeft: number[] = [0, 0];
-</script>
+  import RoadCreator from "$lib/components/RoadCreator.svelte";
+  import { tentativeRoadParams } from "$lib/misc/stores";
+	import { setContext } from "svelte";
 
-<Renderer {world} {topLeft} {scale}/>
+
+  let world: World = new World();
+  setContext("world", world);
+  let scale: number = 20;
+  let topLeft: number[] = [0, 0];
+  let screenW = 1000;
+  let screenH = 500;
+  let creatingRoad = false;
+
+  $: creatingRoad, tentativeRoadParams.update(v => {
+    v.creatingRoad = creatingRoad;
+    return v;
+  })
+
+  
+  function addRoad(isHorizontal: boolean, roadLength: number, roadStartPos: number[]) {
+    console.log("adding road with params")
+    world.addRoad(isHorizontal, roadLength, roadStartPos);
+    creatingRoad = false;
+  }
+</script>
+<Renderer {world} {topLeft} bind:scale={scale} {screenW} {screenH}/>
+
+{#if creatingRoad}
+  <RoadCreator addRoad={addRoad}/>
+{/if}
+{#if !creatingRoad} 
+  <button on:click={()=>{creatingRoad = true;}}>Open Create Road Menu</button>
+{/if}

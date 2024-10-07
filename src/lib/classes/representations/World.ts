@@ -53,6 +53,13 @@ export default class World {
     return roadToAdd;
   }
 
+  removeRoad(roadId: number) {
+    for (let i=0; i<this.activeRoads.length; i++) {
+      if (this.activeRoads[i].id === roadId) 
+        this.activeRoads.splice(i, 1);
+    }
+  }
+
   addIntersection(): Intersection {
     let intersectionToAdd = new Intersection();
     this.activeIntersections.push(intersectionToAdd);
