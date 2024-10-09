@@ -2,12 +2,14 @@ import { highestIds } from "$lib/misc/stores";
 import Intersection from "./Intersection";
 import Road from "./Road";
 import Vehicle from "./Vehicle";
+import VehicleOutputter from "./VehicleOutputter";
 
 
 export default class World {
   activeRoads: Road[] = [];
   activeVehicles: Vehicle[] = [];
   activeIntersections: Intersection[] = [];
+  activeVehicleOutputters: VehicleOutputter[] = [];
   id: number = 0;
 
   constructor() {
@@ -32,13 +34,18 @@ export default class World {
   }
 
   update(dt: number): void {
+    for (let vehicleOutputter of this.activeVehicleOutputters) {
+      vehicleOutputter.update(dt);
+    }
+
     for (let road of this.activeRoads) {
-      road.update(dt);
+      road.update(dt); // also updates all cars on the road
     }
 
     for (let intersection of this.activeIntersections) {
       intersection.update(dt);
     }
+
   }
 
   addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number): Vehicle {
@@ -66,6 +73,10 @@ export default class World {
     return intersectionToAdd;
   }
 
+  addVehicleOutputter(world: World, road:Road, posOnRoad: number, directionOnRoad: boolean, rateOfOutput: number, startingVelocity: number, minBetweenOutputs: number = 0): void {
+    this.activeVehicleOutputters.push(new VehicleOutputter(this, road, posOnRoad, directionOnRoad, rateOfOutput, startingVelocity, minBetweenOutputs));
+  }
+
   getVehicleById(id: number): Vehicle | number {
     this.activeVehicles.forEach(vehicle => {
       if (vehicle.getId() === id) return vehicle;
@@ -86,4 +97,6 @@ export default class World {
     });
     return -1;
   }
+
+  
 }
