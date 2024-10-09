@@ -51,7 +51,12 @@ export default class Vehicle {
     return this.currentRoad.posFromDistance(this.positionOnRoad);
   }
 
+  accelerate(acceleration: number) {
+    this.velocityOnRoad += acceleration;
+  }
+
   update(dt: number): void {
     this.positionOnRoad += this.velocityOnRoad * dt;
+    this.driver.update(dt);
   }
 }

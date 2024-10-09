@@ -9,13 +9,12 @@
   let roadIsHorizontal: boolean = true;
 
   function setTentativeRoadParams() {
-    tentativeRoadParams.update((v) => {
-      return {
+    tentativeRoadParams.set({
         roadLength: roadLength,
         roadStartPos: [roadStartX, roadStartY],
-        roadIsHorizontal: roadIsHorizontal
-      };
-    })
+        roadIsHorizontal: roadIsHorizontal,
+        creatingRoad: false
+      })
   }
   setTentativeRoadParams();
   $: roadLength, roadStartX, roadStartY, roadIsHorizontal, setTentativeRoadParams()

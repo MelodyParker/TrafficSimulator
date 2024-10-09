@@ -3,7 +3,7 @@ import Road from "../representations/Road";
 
 
 type TentativeRoadParams = {
-  isHorizontal: boolean,
+  roadIsHorizontal: boolean,
   roadLength: number,
   roadStartPos: number[]
   
@@ -60,7 +60,7 @@ export default class Renderer {
 
   renderTentativeRoad(tentativeRoadParams: TentativeRoadParams) {
 
-    let fakeRoad: Road = new Road(this.world, tentativeRoadParams.isHorizontal, tentativeRoadParams.roadLength, tentativeRoadParams.roadStartPos)
+    let fakeRoad: Road = new Road(this.world, tentativeRoadParams.roadIsHorizontal, tentativeRoadParams.roadLength, tentativeRoadParams.roadStartPos)
     this.drawRoad(fakeRoad);
   }
 }
