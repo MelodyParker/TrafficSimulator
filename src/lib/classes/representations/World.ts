@@ -97,6 +97,4 @@ export default class World {
     });
     return -1;
   }
-
-  
 }

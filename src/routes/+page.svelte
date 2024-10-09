@@ -1,13 +1,13 @@
 <script lang="ts">
-  import Renderer from "$lib/components/Renderer.svelte";
-  import World from "$lib/classes/representations/World";
+  // import Renderer from "$lib/components/Renderer.svelte";
+  // import World from "$lib/classes/representations/World";
   import RoadCreator from "$lib/components/RoadCreator.svelte";
   import { tentativeRoadParams } from "$lib/misc/stores";
 	import { setContext } from "svelte";
 
 
-  let world: World = new World();
-  setContext("world", world);
+  // let world: World = new World();
+  // setContext("world", world);
   let scale: number = 20;
   let topLeft: number[] = [0, 0];
   let screenW = 1000;
@@ -22,11 +22,11 @@
   
   function addRoad(isHorizontal: boolean, roadLength: number, roadStartPos: number[]) {
     console.log("adding road with params")
-    world.addRoad(isHorizontal, roadLength, roadStartPos);
+    // world.addRoad(isHorizontal, roadLength, roadStartPos);
     creatingRoad = false;
   }
 </script>
-<Renderer {world} {topLeft} bind:scale={scale} {screenW} {screenH}/>
+<!-- <Renderer {world} {topLeft} bind:scale={scale} {screenW} {screenH}/> -->
 
 {#if creatingRoad}
   <RoadCreator addRoad={addRoad}/>

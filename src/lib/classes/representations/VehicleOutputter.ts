@@ -1,6 +1,7 @@
 import type Road from "./Road";
 import type World from "./World";
 
+
 export default class VehicleOutputter {
   world: World;
   road: Road;
