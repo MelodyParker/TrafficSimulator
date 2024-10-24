@@ -15,6 +15,7 @@ export default class Vehicle {
   maxAcceleration: number = 0;
   maxBraking: number = 0;
   driver: Driver = new Driver(this);
+  world: World;
 
   constructor(world: World, startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number) {
     highestIds.update((currentValue) => { // a dumb way of reading the current value of highestIds
@@ -27,10 +28,10 @@ export default class Vehicle {
       this.maxAcceleration = currentValue.maxAcceleration;
       return currentValue;
     })
-
+    this.world = world;
     this.currentRoad = startingRoad;
     this.directionOnRoad = directionOnRoad;
-    this.velocityOnRoad = velocityOnRoad;
+    this.velocityOnRoad = (directionOnRoad ? velocityOnRoad : -velocityOnRoad);
     this.positionOnRoad = positionOnRoad;
 
   }
@@ -51,12 +52,25 @@ export default class Vehicle {
     return this.currentRoad.posFromDistance(this.positionOnRoad);
   }
 
+  getDirectionOnRoad(): boolean {
+    return this.directionOnRoad;
+  }
+
+  getRoad(): Road {
+    return this.currentRoad;
+  }
+
   accelerate(acceleration: number) {
     this.velocityOnRoad += acceleration;
   }
 
-  update(dt: number): void {
+  update(dt: number): void|number {
     this.positionOnRoad += this.velocityOnRoad * dt;
+    if ((this.positionOnRoad > this.currentRoad.getLength() && this.directionOnRoad) || (!this.directionOnRoad && this.positionOnRoad + 1.5 < 0)) {
+      this.world.removeVehicle(this.id);
+    }
     this.driver.update(dt);
   }
+
+
 }

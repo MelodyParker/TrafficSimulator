@@ -21,7 +21,7 @@
 
   export let addRoad: Function;
 
-  function onSubmit(e) {
+  function onSubmit() {
     addRoad(roadIsHorizontal, roadLength, [roadStartX, roadStartY]);
   }
 </script>

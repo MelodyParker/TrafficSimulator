@@ -9,6 +9,8 @@
   export let topLeft: number[];
   export let scale: number;
 
+  let lastTime = Date.now();
+
 
 
 
@@ -30,8 +32,12 @@
       renderer = new Renderer(context, world, topLeft, scale, screenW, screenH);
   }
   function update() {
-    world.update(1);
-    tempX += 2;
+
+    requestAnimationFrame(update);
+    let currentTime = Date.now();
+    let elapsedTime = currentTime - lastTime;
+    world.update(elapsedTime / 1000);
+    lastTime = Date.now();
     render();
   }
 
@@ -40,7 +46,6 @@
     if ($tentativeRoadParams.creatingRoad) {
       renderer.renderTentativeRoad($tentativeRoadParams);
     }
-    requestAnimationFrame(update);
   }
 
 
@@ -49,7 +54,7 @@
     requestAnimationFrame(update);
     if (context !== null)
       renderer = new Renderer(context, world, topLeft, scale, screenW, screenH);
-
+    lastTime = Date.now()
   })
 
 </script>

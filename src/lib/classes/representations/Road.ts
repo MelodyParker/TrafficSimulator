@@ -66,7 +66,17 @@ export default class Road {
     return (this.lanesBackward + this.lanesForward) * this.laneWidth;
   }
 
+  getLaneWidth(): number {
+    return this.laneWidth;
+  }
+
   getLength(): number {
     return this.length;
   }
+  
+  getVehicles(): Vehicle[] {
+    return this.vehiclesOnRoad;
+  }
+
+
 }

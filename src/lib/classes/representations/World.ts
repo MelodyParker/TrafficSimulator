@@ -51,7 +51,19 @@ export default class World {
   addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number): Vehicle {
     let vehicleToAdd: Vehicle = new Vehicle(this, startingRoad, directionOnRoad, velocityOnRoad, positionOnRoad)
     this.activeVehicles.push(vehicleToAdd);
+    startingRoad.addVehicle(vehicleToAdd);
     return vehicleToAdd;
+  }
+  
+  removeVehicle(roadId: number) {
+
+    for (let i=0; i<this.activeVehicles.length; i++) {
+      let maybeRemovingVehicle = this.activeVehicles[i];
+      if (maybeRemovingVehicle.id === roadId) {
+        this.activeVehicles.splice(i, 1);
+        maybeRemovingVehicle.getRoad().removeVehicle(maybeRemovingVehicle.id);
+      }
+    }
   }
 
   addRoad(isHorizontal: boolean, length: number, roadStartPos: number[], lanesForward=undefined, lanesBackward=undefined): Road {
@@ -85,10 +97,12 @@ export default class World {
   }
 
    getRoadById(id: number): Road | number {
-    this.activeRoads.forEach(road => {
-      if (road.getId() === id) return road;
-    });
-    return -1;
+    return this.activeRoads.filter(road => road.id == id)[0];
+    // this.activeRoads.forEach(road => {
+    //   console.log(road)
+    //   if (road.getId() === id) return road;
+    // });
+    // return -1;
   } 
 
   getIntersectionById(id: number): Intersection | number {
