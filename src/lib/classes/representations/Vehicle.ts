@@ -2,6 +2,7 @@ import Road from "./Road";
 import Driver from "./Driver";
 import World from "./World";
 import { highestIds, vehicleSpecs } from "$lib/misc/stores";
+import Personality from "./Personality";
 
 
 
@@ -14,10 +15,11 @@ export default class Vehicle {
   positionOnRoad: number;
   maxAcceleration: number = 0;
   maxBraking: number = 0;
-  driver: Driver = new Driver(this);
+  driver: Driver;
   world: World;
+  personality: Personality;
 
-  constructor(world: World, startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number) {
+  constructor(world: World, startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number, personality: Personality) {
     highestIds.update((currentValue) => { // a dumb way of reading the current value of highestIds
       this.id = currentValue.vehicle;
       currentValue.vehicle ++;
@@ -33,7 +35,8 @@ export default class Vehicle {
     this.directionOnRoad = directionOnRoad;
     this.velocityOnRoad = (directionOnRoad ? velocityOnRoad : -velocityOnRoad);
     this.positionOnRoad = positionOnRoad;
-
+    this.personality = personality;
+    this.driver = new Driver(this, this.personality);
   }
 
   getId(): number {

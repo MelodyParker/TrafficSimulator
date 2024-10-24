@@ -4,6 +4,7 @@
   import RoadCreator from "$lib/components/RoadCreator.svelte";
   import VehicleCreator from "$lib/components/VehicleCreator.svelte";
   import { tentativeRoadParams } from "$lib/misc/stores";
+	import Personality from "$lib/classes/representations/Personality";
 
 
   let world: World = new World();
@@ -13,6 +14,7 @@
   let screenW = 1000;
   let screenH = 500;
   let creatingRoad = false;
+  let basicPersonality = new Personality(4.5, 0.5, 0.5, 2);
 
   let creatingVehicle = false;
 
@@ -39,7 +41,7 @@
     console.log(road)
     if (typeof road === "number") return;
     console.log(7)
-    world.addVehicle(road, direction, speed, (direction ? 0 : road.getLength() - 1.5));
+    world.addVehicle(road, direction, speed, (direction ? 0 : road.getLength() - 1.5), basicPersonality);
     console.log("added vehicle")
     console.log(road.getVehicles())
   }

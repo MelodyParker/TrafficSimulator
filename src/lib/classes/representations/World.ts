@@ -1,5 +1,6 @@
 import { highestIds } from "$lib/misc/stores";
 import Intersection from "./Intersection";
+import type Personality from "./Personality";
 import Road from "./Road";
 import Vehicle from "./Vehicle";
 import VehicleOutputter from "./VehicleOutputter";
@@ -48,8 +49,8 @@ export default class World {
 
   }
 
-  addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number): Vehicle {
-    let vehicleToAdd: Vehicle = new Vehicle(this, startingRoad, directionOnRoad, velocityOnRoad, positionOnRoad)
+  addVehicle(startingRoad: Road, directionOnRoad: boolean, velocityOnRoad: number, positionOnRoad: number, personality: Personality): Vehicle {
+    let vehicleToAdd: Vehicle = new Vehicle(this, startingRoad, directionOnRoad, velocityOnRoad, positionOnRoad, personality)
     this.activeVehicles.push(vehicleToAdd);
     startingRoad.addVehicle(vehicleToAdd);
     return vehicleToAdd;
