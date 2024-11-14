@@ -62,7 +62,8 @@ export default class Driver {
     let desired_velocity = this.personality.desiredSpeedOverLimit + this.vehicle.getRoad().speedLimit;
 
     if (dist >= following_distance) return desired_velocity;
-    
-    return Math.abs((dist - following_distance) * desired_velocity / following_distance + desired_velocity);
+    let nextV = this.nextVehicle()
+    if (nextV)
+      return Math.min(Math.abs(nextV.velocityOnRoad), Math.abs((dist - following_distance) * desired_velocity / following_distance + desired_velocity));
   }
 }
