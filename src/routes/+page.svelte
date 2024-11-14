@@ -14,7 +14,7 @@
   let screenW = 1000;
   let screenH = 500;
   let creatingRoad = false;
-  let basicPersonality = new Personality(4.5, 0.5, 0.5, 2);
+  let basicPersonality = new Personality(3, 0.5, 0.5, 2, 0.2);
 
   let creatingVehicle = false;
 
@@ -47,6 +47,7 @@
   }
 </script>
 <Renderer {world} {topLeft} bind:scale={scale} {screenW} {screenH}/>
+
 <div>
   {#if creatingRoad}
     <RoadCreator addRoad={addRoad}/>

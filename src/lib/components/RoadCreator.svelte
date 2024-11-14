@@ -3,9 +3,9 @@
 	import Road from "$lib/classes/representations/Road";
   import { tentativeRoadParams } from "$lib/misc/stores";
 
-  let roadLength: number = 20;
-  let roadStartX: number = 5;
-  let roadStartY: number = 5;
+  let roadLength: number = 50;
+  let roadStartX: number = 0;
+  let roadStartY: number = 0;
   let roadIsHorizontal: boolean = true;
 
   function setTentativeRoadParams() {

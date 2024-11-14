@@ -86,8 +86,8 @@ export default class Renderer {
           vehicleHeight = Math.min(road.posFromDistance(road.getLength())[1] - vehiclePosY, vehicleHeight);
       }
     }
-
     this.ctx.fillStyle = "#00678A";
+    
     this.ctx.fillRect(this.worldPosToPixelPos([vehiclePosX, vehiclePosY])[0], this.worldPosToPixelPos([vehiclePosX, vehiclePosY])[1], vehicleWidth * this.scale, vehicleHeight * this.scale);
   }
 

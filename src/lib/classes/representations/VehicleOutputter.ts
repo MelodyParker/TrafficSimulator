@@ -1,6 +1,9 @@
+import Personality from "./Personality";
 import type Road from "./Road";
 import type World from "./World";
 
+
+let basicPersonality = new Personality(0.5, 0.5, 0.5, 2, 0.2);
 
 export default class VehicleOutputter {
   world: World;
@@ -26,7 +29,7 @@ export default class VehicleOutputter {
   update(dt: number): void {
     let probabilityOfGeneratingCar = dt * this.rate;
     if (Math.random() < probabilityOfGeneratingCar && this.timeSinceLastOutput >= this.minBetweenOutputs) {
-      this.world.addVehicle(this.road, this.directionOfOutput, this.startingVelocity, this.posOnRoad);
+      this.world.addVehicle(this.road, this.directionOfOutput, this.startingVelocity, this.posOnRoad, basicPersonality);
       this.timeSinceLastOutput = 0;
     }
     else {

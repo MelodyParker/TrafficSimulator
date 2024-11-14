@@ -33,7 +33,7 @@ export default class Vehicle {
     this.world = world;
     this.currentRoad = startingRoad;
     this.directionOnRoad = directionOnRoad;
-    this.velocityOnRoad = (directionOnRoad ? velocityOnRoad : -velocityOnRoad);
+    this.velocityOnRoad = velocityOnRoad;
     this.positionOnRoad = positionOnRoad;
     this.personality = personality;
     this.driver = new Driver(this, this.personality);
@@ -67,8 +67,43 @@ export default class Vehicle {
     this.velocityOnRoad += acceleration;
   }
 
+  nextVehicle(): Vehicle|void {
+    let sortedOtherVehicles = this.currentRoad.getVehicles().filter((value) => (value.directionOnRoad === this.directionOnRoad)).sort((a, b) => a.positionOnRoad - b.positionOnRoad);
+
+
+    if (this.directionOnRoad) {
+      for (let vehicle of sortedOtherVehicles) {
+        if ((vehicle.positionOnRoad > this.positionOnRoad) && this.directionOnRoad || (vehicle.positionOnRoad < this.positionOnRoad && !this.directionOnRoad)) {
+          return vehicle;
+        }
+      }
+    } else {
+      for (let vehicle of sortedOtherVehicles.reverse()) {
+        
+        if (vehicle.positionOnRoad < this.positionOnRoad) {
+          return vehicle;
+        }
+      }
+    }
+  }
+
+  distanceToNextVehicle(): number {
+    let nextVehicle = this.nextVehicle();
+    if (!nextVehicle) return Number.POSITIVE_INFINITY; 
+
+    if (this.directionOnRoad)
+      return nextVehicle.positionOnRoad - this.positionOnRoad - 1.5;
+    return this.positionOnRoad - nextVehicle.positionOnRoad - 1.5;
+  }
+
+  getSpeedLimit() {
+    return this.currentRoad.speedLimit;
+  }
+
   update(dt: number): void|number {
-    this.positionOnRoad += this.velocityOnRoad * dt;
+    
+    this.velocityOnRoad = Math.max(this.velocityOnRoad, 0);
+    this.positionOnRoad += (this.directionOnRoad) ? this.velocityOnRoad * dt : -this.velocityOnRoad * dt;
     if ((this.positionOnRoad > this.currentRoad.getLength() && this.directionOnRoad) || (!this.directionOnRoad && this.positionOnRoad + 1.5 < 0)) {
       this.world.removeVehicle(this.id);
     }

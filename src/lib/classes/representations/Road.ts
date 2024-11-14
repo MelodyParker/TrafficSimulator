@@ -12,6 +12,7 @@ export default class Road {
   lanesForward: number;
   lanesBackward: number;
   laneWidth: number = 1;
+  speedLimit: number = 10;
   
   constructor(world: World, isHorizontal: boolean, length: number, roadStartPos: number[], lanesForward=1, lanesBackward=1) {
     this.world = world;
