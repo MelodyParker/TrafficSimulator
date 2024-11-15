@@ -57,6 +57,33 @@ export default class Road {
     return [this.roadStart[0], this.roadStart[1] + distanceOnRoad];
   }
 
+  intersectsWith(other: Road): boolean {
+    if ((this.isHorizontal && other.isHorizontal) || (!this.isHorizontal && !other.isHorizontal)) return false;
+    
+    let horizRoad, vertRoad;
+
+    if (this.isHorizontal) {
+      horizRoad = this;
+      vertRoad = other;
+    } else {
+      horizRoad = other;
+      vertRoad = this;
+    }
+    let horizRoadY = horizRoad.posFromDistance(0)[1];
+    let vertRoadX = vertRoad.posFromDistance(0)[0];
+
+    let minHorizRoadX = Math.min(horizRoad.posFromDistance(0)[0], horizRoad.posFromDistance(horizRoad.getLength())[0])
+    let maxHorizRoadX = Math.max(horizRoad.posFromDistance(0)[0], horizRoad.posFromDistance(horizRoad.getLength())[0])
+
+    if (minHorizRoadX >= vertRoadX || maxHorizRoadX <= vertRoadX) return false;
+
+    let minVertRoadY = Math.min(vertRoad.posFromDistance(0)[1], vertRoad.posFromDistance(vertRoad.getLength())[1])
+    let maxVertRoadY = Math.max(vertRoad.posFromDistance(0)[1], vertRoad.posFromDistance(vertRoad.getLength())[1])
+
+    if (minVertRoadY >= horizRoadY || maxVertRoadY <= horizRoadY) return false;
+
+    return true;
+  }
   update(dt: number): void {
     for (let vehicle of this.vehiclesOnRoad) {
       vehicle.update(dt);
